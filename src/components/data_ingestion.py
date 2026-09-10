@@ -5,7 +5,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from dataclasses import dataclass
-print("This is data_ingestion.py")
 
 
 @dataclass

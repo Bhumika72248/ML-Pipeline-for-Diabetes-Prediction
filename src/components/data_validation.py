@@ -34,12 +34,7 @@ class DataValidation:
 
             logging.info("Dataset read successfully")
 
-            missing_values = df.isnull().sum().sum()
-            duplicate_rows = df.duplicated().sum()
-
-            logging.info(f"Dataset shape: {df.shape}")
-            logging.info(f"Missing values:{missing_values}")
-            logging.info(f"Duplicate rows: {duplicate_rows}")
+            logging.info(f"Data types: \n{df.dtypes}")
 
             required_columns = [
                 "Pregnancies",
@@ -52,13 +47,28 @@ class DataValidation:
                 "Age",
                 "Outcome"
             ]
+            missing_values = df.isnull().sum().sum()
+            duplicate_rows = df.duplicated().sum()
+
+            logging.info(f"Dataset shape: {df.shape}")
+            logging.info(f"Missing values:{missing_values}")
+            logging.info(f"Duplicate rows: {duplicate_rows}")
 
             validation_status = True
-            if not all(column in df.columns for column in required_columns):
 
+            missing_columns = [
+                column
+                for column in required_columns
+                if column not in df.columns
+            ]
+
+            if missing_columns:
                 validation_status = False
 
-                logging.warning("Required columns are missing")
+                logging.warning(
+                    f"Required columns are missing: {missing_columns}"
+                )
+
 
             if missing_values >0:
 
@@ -71,6 +81,32 @@ class DataValidation:
                 validation_status = False
 
                 logging.warning("Dataset contains duplicate rows")
+
+            non_numeric_columns = [
+                column
+                for column in required_columns
+                if column in df.columns
+                and not pd.api.types.is_numeric_dtype(df[column])
+            ]   
+
+            if non_numeric_columns:
+                validation_status = False
+
+                logging.warning(
+                f"Non-numeric columns found: {non_numeric_columns}"
+                )
+
+
+            expected_column_count = len(required_columns)
+
+            if df.shape[1] != expected_column_count:
+                validation_status = False
+
+                logging.warning(
+                    f"Unexpected number of columns. "
+                    f"Expected: {expected_column_count}, "
+                    f"Found: {df.shape[1]}"
+                )
 
             with open(
                 self.data_validation_config.validation_status_file_path,

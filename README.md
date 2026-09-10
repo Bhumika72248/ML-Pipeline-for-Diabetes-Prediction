@@ -9,3 +9,6 @@ conda activate diabetes
 before working on the project.
 
 python -m src.components.data_validation
+
+for running fastapi
+python -m uvicorn app:app --reload
