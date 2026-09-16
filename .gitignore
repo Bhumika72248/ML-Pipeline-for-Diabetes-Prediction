@@ -1,24 +1,65 @@
-# Virtual Environment
+# ==============================
+# Python Virtual Environments
+# ==============================
 venv/
 env/
-.env
+.venv/
+ENV/
+frontend/test_env/
 
-# Python cache
+# ==============================
+# Environment Variables
+# ==============================
+.env
+.env.*
+!.env.example
+
+# ==============================
+# Python Cache
+# ==============================
 __pycache__/
 *.py[cod]
 *.pyo
 
+# ==============================
 # Logs
+# ==============================
 logs/
 *.log
 
-# Jupyter checkpoints
+# ==============================
+# Jupyter
+# ==============================
 .ipynb_checkpoints/
 
-# OS files
-.DS_Store
-Thumbs.db
+# ==============================
+# Python Build / Packaging
+# ==============================
+build/
+dist/
+*.egg-info/
 
+# ==============================
+# Testing / Coverage
+# ==============================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ==============================
+# Frontend
+# ==============================
+frontend/node_modules/
+frontend/dist/
+
+# ==============================
 # IDE
+# ==============================
 .vscode/
 .idea/
+
+# ==============================
+# OS
+# ==============================
+.DS_Store
+Thumbs.db

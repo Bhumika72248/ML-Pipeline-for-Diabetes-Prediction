@@ -1,20 +1,40 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+import os
+from fastapi.middleware.cors import CORSMiddleware
+
+from pydantic import BaseModel, Field
  
 from src.pipeline.predict_pipeline import CustomData, PredictPipeline
 
 class DiabetesInput(BaseModel):
+    
+    Pregnancies: int = Field(ge=0)
+    Glucose: int = Field(gt=0)
+    BloodPressure: int = Field(gt=0)
+    SkinThickness: int = Field(ge=0)
+    Insulin: int = Field(ge=0)
+    BMI: float = Field(gt=0)
+    DiabetesPedigreeFunction: float = Field(ge=0)
+    Age: int = Field(gt=0)
 
-    Pregnancies: int
-    Glucose: int
-    BloodPressure: int
-    SkinThickness: int
-    Insulin: int
-    BMI: float
-    DiabetesPedigreeFunction: float
-    Age: int
+app = FastAPI(
+    title="Diabetes Prediction API",
+    description="Machine Learning API for diabetes prediction",
+    version="1.0.0"
+)
 
-app = FastAPI()
+FRONTEND_URL = os.getenv(
+    "FRONTEND_URL",
+    "http://localhost:5173"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[FRONTEND_URL],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def home():
