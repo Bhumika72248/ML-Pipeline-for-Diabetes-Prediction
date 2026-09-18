@@ -28,4 +28,7 @@ jobs:
           pip install pytest httpx
 
       - name: Run tests
-        run: pytest
+        run: pytest -v
+
+      - name: Build Docker image
+        run: docker build -t diabetes-prediction-api .
